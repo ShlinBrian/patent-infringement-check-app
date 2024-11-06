@@ -1,0 +1,1 @@
+# patent-infringement-check-app
