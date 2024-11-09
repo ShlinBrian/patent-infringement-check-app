@@ -10,7 +10,10 @@ def load_json(file_path: str):
 
 def get_patent_by_id(patents, patent_id):
     """Retrieve patent by its ID."""
-    return next((patent for patent in patents if patent["id"] == patent_id), None)
+    return next(
+        (patent for patent in patents if patent["publication_number"] == patent_id),
+        None,
+    )
 
 
 def find_company_products(companies, company_name):

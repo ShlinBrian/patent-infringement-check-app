@@ -4,15 +4,19 @@ from typing import List, Optional
 
 class ProductAnalysis(BaseModel):
     product_name: str
-    analysis: str
+    infringement_likelihood: str
+    relevant_claims: List[str]
+    explanation: str
+    specific_features: Optional[List[str]]
 
 
 class InfringementReport(BaseModel):
     patent_id: str
     company_name: str
-    results: List[ProductAnalysis]
+    top_infringing_products: List[ProductAnalysis]
+    overall_risk_assessment: str | None = None
 
 
 class InfringementRequest(BaseModel):
-    patent_id: int  # Use integer since patent IDs are numeric
+    patent_id: str
     company_name: str
