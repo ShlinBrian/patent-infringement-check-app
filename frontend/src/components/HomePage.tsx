@@ -21,8 +21,13 @@ const HomePage: React.FC = () => {
       });
       setResults(response.data);
     } catch (err: any) {
+      if (axios.isAxiosError(err) && err.response) {
+        // Display backend error message if available
+        setError(err.response.data.detail || "An unexpected error occurred.");
+      } else {
+        setError("Failed to fetch infringement results. Please try again.");
+      }
       console.error("Error running patent check:", err);
-      setError("Failed to fetch infringement results. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -61,7 +66,7 @@ const HomePage: React.FC = () => {
         </button>
       </form>
 
-      {loading && <Spinner />} {/* Show the spinner when loading */}
+      {loading && <Spinner />} {/* Show spinner during loading */}
 
       {error && (
         <div className="alert alert-danger text-center mt-3">
