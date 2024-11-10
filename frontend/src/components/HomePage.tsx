@@ -4,7 +4,6 @@ import axios from "axios";
 import Spinner from "./Spinner";
 import SavedReportItem from "./SavedReportItem"; // Import the new component
 
-
 const HomePage: React.FC = () => {
   const [patentId, setPatentId] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
@@ -55,7 +54,6 @@ const HomePage: React.FC = () => {
 
   const toggleSavedReports = () => {
     if (!showSavedReports) {
-      // Fetch reports when the section is expanded
       fetchSavedReports();
     }
     setShowSavedReports(!showSavedReports);
@@ -76,81 +74,222 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="container py-5">
-      <h1 className="text-center text-primary mb-4">Patent Infringement Checker</h1>
+    <div
+      className="container py-5"
+      style={{
+        color: "#FFFFFF",
+        backgroundColor: "#000000",
+        margin: "0",
+        padding: "0",
+        maxWidth: "100%",
+        width: "100%",
+        minHeight: "100vh",
+      }}
+    >
+      <h1 className="text-center mb-4" style={{ color: "#57DC2F" }}>
+        Patent Infringement Checker
+      </h1>
 
       {/* Infringement Check Form */}
-      <form onSubmit={handleSubmit} className="card p-4 shadow mb-4">
+      <form
+        onSubmit={handleSubmit}
+        className="card p-4 shadow mb-4"
+        style={{ backgroundColor: "#121212", border: "1px solid #57DC2F", borderRadius: "10px" }}
+      >
         <div className="mb-3">
-          <label className="form-label">Patent ID:</label>
+          <label
+            className="form-label"
+            style={{
+              color: "#57DC2F", // Updated to match the theme
+              fontWeight: "bold",
+            }}
+          >
+            Patent ID:
+          </label>
           <input
             type="text"
             value={patentId}
             onChange={(e) => setPatentId(e.target.value)}
             className="form-control"
+            style={{
+              backgroundColor: "#1A1A1A",
+              color: "#FFFFFF",
+              border: "1px solid #57DC2F",
+              borderRadius: "5px",
+            }}
             required
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">Company Name:</label>
+          <label
+            className="form-label"
+            style={{
+              color: "#57DC2F", // Updated to match the theme
+              fontWeight: "bold",
+            }}
+          >
+            Company Name:
+          </label>
           <input
             type="text"
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
             className="form-control"
+            style={{
+              backgroundColor: "#1A1A1A",
+              color: "#FFFFFF",
+              border: "1px solid #57DC2F",
+              borderRadius: "5px",
+            }}
             required
           />
         </div>
         <button
           type="submit"
-          className="btn btn-primary w-100"
+          className="btn w-100"
+          style={{
+            backgroundColor: "#57DC2F",
+            color: "#000000",
+            borderRadius: "5px",
+            transition: "background-color 0.3s ease",
+          }}
           disabled={loading}
         >
-          {loading ? "Checking..." : "Check Infringement"}
+            {loading ? <strong>Checking...</strong> : <strong>Check Infringement</strong>}
         </button>
       </form>
+
 
       {loading && <Spinner />} {/* Show spinner during loading */}
 
       {error && (
-        <div className="alert alert-danger text-center mt-3">
+        <div
+          className="alert text-center mt-3"
+          style={{
+            color: "#FFFFFF",
+            backgroundColor: "#FF0000",
+            borderRadius: "5px",
+            padding: "10px",
+          }}
+        >
           {error}
         </div>
       )}
 
       {results && (
-        <div className="card p-4 shadow mt-4">
-          <h2 className="card-title text-secondary">Infringement Results</h2>
-          <p><strong>Patent ID:</strong> {results.patent_id}</p>
-          <p><strong>Company Name:</strong> {results.company_name}</p>
-          <p><strong>Overall Risk Assessment:</strong> {results.overall_risk_assessment}</p>
-          <p><strong>Created Time:</strong> {new Date(results.create_time).toLocaleString()}</p>
-          <h3 className="mt-4">Top Infringing Products</h3>
-          {results.top_infringing_products?.map((product, index) => (
-            <div key={index} className="border-top pt-3 mt-3">
-              <h4 className="text-primary">{product.product_name}</h4>
-              <p><strong>Likelihood:</strong> {product.infringement_likelihood}</p>
-              <p><strong>Explanation:</strong> {product.explanation}</p>
-              <p><strong>Relevant Claims:</strong> {product.relevant_claims.join(", ")}</p>
-              <ul>
-                {product.specific_features.map((feature, i) => (
-                  <li key={i}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          <button className="btn btn-success mt-3" onClick={handleSaveReport}>
+        <div
+          className="card p-4 shadow mt-4"
+          style={{
+            backgroundColor: "#121212",
+            border: "1px solid #57DC2F",
+            borderRadius: "10px",
+            color: "#FFFFFF",
+          }}
+        >
+          <h2 style={{ color: "#57DC2F", fontWeight: "bold", marginBottom: "20px" }}>
+            Infringement Results
+          </h2>
+          <p>
+            <strong style={{ color: "#57DC2F" }}>Patent ID:</strong> {results.patent_id}
+          </p>
+          <p>
+            <strong style={{ color: "#57DC2F" }}>Company Name:</strong> {results.company_name}
+          </p>
+          <p>
+            <strong style={{ color: "#57DC2F" }}>Overall Risk Assessment:</strong>{" "}
+            {results.overall_risk_assessment}
+          </p>
+          <p>
+            <strong style={{ color: "#57DC2F" }}>Created Time:</strong>{" "}
+            {new Date(results.create_time).toLocaleString()}
+          </p>
+
+          <h3 style={{ color: "#57DC2F", marginTop: "30px", marginBottom: "15px" }}>
+            Top Infringing Products
+          </h3>
+          {results.top_infringing_products?.length > 0 ? (
+            results.top_infringing_products.map((product, index) => (
+              <div
+                key={index}
+                style={{
+                  borderTop: "1px solid #57DC2F",
+                  paddingTop: "15px",
+                  marginTop: "15px",
+                }}
+              >
+                <h4
+                  style={{
+                    color: "#57DC2F",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {product.product_name}
+                </h4>
+                <p>
+                  <strong style={{ color: "#57DC2F" }}>Likelihood:</strong>{" "}
+                  {product.infringement_likelihood}
+                </p>
+                <p>
+                  <strong style={{ color: "#57DC2F" }}>Explanation:</strong>{" "}
+                  {product.explanation}
+                </p>
+                <p>
+                  <strong style={{ color: "#57DC2F" }}>Relevant Claims:</strong>{" "}
+                  {product.relevant_claims.join(", ")}
+                </p>
+                <p style={{ marginBottom: "10px", fontWeight: "bold", color: "#57DC2F" }}>
+                  Specific Features:
+                </p>
+                <ul style={{ paddingLeft: "20px" }}>
+                  {product.specific_features.map((feature, i) => (
+                    <li key={i} style={{ color: "#FFFFFF", marginBottom: "5px" }}>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p style={{ color: "#FFFFFF", marginTop: "15px" }}>
+              No infringing products found.
+            </p>
+          )}
+
+          <button
+            className="btn mt-4"
+            style={{
+              backgroundColor: "#57DC2F",
+              color: "#000000",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+            onClick={handleSaveReport}
+          >
             Save This Report
           </button>
         </div>
       )}
 
+
+
       {/* Saved Reports Section */}
-      <div className="card p-4 shadow mt-5">
+      <div
+        className="card p-4 shadow mt-5"
+        style={{ backgroundColor: "#121212", border: "1px solid #57DC2F", borderRadius: "10px" }}
+      >
         <div className="d-flex justify-content-between align-items-center">
-          <h2 className="text-secondary">Saved Reports</h2>
-          <button className="btn btn-secondary" onClick={toggleSavedReports}>
-            {showSavedReports ? "Hide Saved Reports" : "Show Saved Reports"}
+          <h2 style={{ color: "#57DC2F" }}>Saved Reports</h2>
+          <button
+            className="btn"
+            style={{
+              backgroundColor: "#57DC2F",
+              color: "#000000",
+              borderRadius: "5px",
+            }}
+            onClick={toggleSavedReports}
+          >
+            {showSavedReports ? <strong>Hide Saved Reports</strong> : <strong>Show Saved Reports</strong>}
           </button>
         </div>
 
@@ -159,7 +298,7 @@ const HomePage: React.FC = () => {
             {fetchingReports ? (
               <Spinner />
             ) : savedReports.length === 0 ? (
-              <p>No saved reports found.</p>
+              <p style={{ color: "#FFFFFF" }}>No saved reports found.</p>
             ) : (
               <ul className="list-group">
                 {savedReports.map((report, index) => (
