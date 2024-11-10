@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Request, Response
 from app.utils import load_json, get_patent_by_id, find_company_products
 from app.analysis import analyze_infringement, analyze_overall_risk_assessment
 from app.schemas import InfringementRequest, InfringementReport, ProductAnalysis
+from datetime import datetime
 from loguru import logger
 
 
@@ -97,4 +98,5 @@ async def check_infringement(request: InfringementRequest):
                 exc_info=True,
             )
     report.overall_risk_assessment = overall_risk_assessment["overall_risk_assessment"]
+    report.create_time = datetime.now()
     return report
