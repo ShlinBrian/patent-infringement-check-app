@@ -29,7 +29,7 @@ async def check_infringement(request: InfringementRequest):
 
     # Analyze all products
     product_analyses = []
-    for product in company["products"][:2]:
+    for product in company["products"]:
         try_count = 0
         logger.debug(f"Analyzing product: {product['name']}")
         while try_count < 3:
@@ -61,11 +61,9 @@ async def check_infringement(request: InfringementRequest):
     sorted_products = sorted(
         product_analyses, key=lambda x: likelihood_order[x["likelihood"]], reverse=True
     )
-    logger.debug(f"Sorted products: {sorted_products}")
 
     # Select the top 2 infringing products
     top_infringing_products = sorted_products[:2]
-    logger.debug(f"Top infringing products: {top_infringing_products}")
 
     # Format the response
     report = InfringementReport(

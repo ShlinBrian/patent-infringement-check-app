@@ -52,7 +52,6 @@ def analyze_infringement(claims: str, product_description: str):
         temperature=0.7,
     )
     result = response.choices[0].message.content
-    logger.debug(f"Response from OpenAI: {result}")
     parse_result = parse_response_content(result)
     logger.debug(f"result: {parse_result}")
     return parse_result
@@ -88,7 +87,6 @@ def analyze_overall_risk_assessment(report: dict):
         temperature=0.7,
     )
     result = response.choices[0].message.content.strip()
-    logger.debug(f"Response from OpenAI: {result}")
     parse_result = parse_response_content(result)
     logger.debug(f"Parsed result: {parse_result}")
     return parse_result
