@@ -1,5 +1,8 @@
 version: "3.8"
 
+networks:
+  patent_network:
+
 services:
   frontend:
     container_name: patent_check_frontend
@@ -11,6 +14,8 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    networks:
+      - patent_network
 
   backend:
     container_name: patent_check_backend
@@ -20,10 +25,11 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://user:password@postgres:5432/patent-check
+      HOST: "0.0.0.0"  # Add this to make the backend accessible on all network interfaces
     depends_on:
       - postgres
-    volumes:
-      - ./alembic:/app/alembic
+    networks:
+      - patent_network
 
   postgres:
     image: postgres:15
@@ -38,6 +44,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql  # Mount the SQL file
+    networks:
+      - patent_network
 
 volumes:
   postgres_data:

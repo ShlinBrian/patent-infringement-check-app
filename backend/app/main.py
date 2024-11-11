@@ -12,6 +12,12 @@ origins = [
     "http://127.0.0.1:3000",
     "https://localhost:3000",
     "https://127.0.0.1:3000",
+    "http://54.80.180.101:3000",
+    "https://54.80.180.101:3000",
+    "http://ec2-54-80-180-101.compute-1.amazonaws.com:3000",
+    "https://ec2-54-80-180-101.compute-1.amazonaws.com:3000",
+    "http://ec2-54-80-180-101.compute-1.amazonaws.com",
+    "https://ec2-54-80-180-101.compute-1.amazonaws.com",
 ]
 
 
