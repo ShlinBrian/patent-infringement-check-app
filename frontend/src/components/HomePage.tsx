@@ -14,13 +14,16 @@ const HomePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSavedReports, setShowSavedReports] = useState<boolean>(false); // Toggle for Saved Reports
 
+  
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";; // Use the service name 'backend'
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/check-infringement", {
+      const response = await axios.post(`${API_URL}/check-infringement`, {
         patent_id: patentId,
         company_name: companyName,
       });
@@ -41,7 +44,7 @@ const HomePage: React.FC = () => {
     setFetchingReports(true);
 
     try {
-      const response = await axios.get("http://localhost:8000/get-reports", {
+      const response = await axios.get(`${API_URL}/get-reports`, {
         withCredentials: true,
       });
       setSavedReports(response.data);
@@ -63,7 +66,7 @@ const HomePage: React.FC = () => {
     if (!results) return;
 
     try {
-      await axios.post("http://localhost:8000/save-report", results, {
+      await axios.post(`${API_URL}/save-report`, results, {
         withCredentials: true,
       });
       alert("Report saved successfully!");
