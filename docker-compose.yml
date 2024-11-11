@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: patent_check_frontend
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    container_name: patent_check_backend
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/patent-check
+    depends_on:
+      - postgres
+    volumes:
+      - ./alembic:/app/alembic
+
+  postgres:
+    image: postgres:15
+    container_name: patent_check_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: patent-check
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql  # Mount the SQL file
+
+volumes:
+  postgres_data:
