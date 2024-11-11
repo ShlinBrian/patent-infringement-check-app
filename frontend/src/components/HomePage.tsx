@@ -16,6 +16,7 @@ const HomePage: React.FC = () => {
 
   
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";; // Use the service name 'backend'
+  console.log("API URL:", API_URL);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
